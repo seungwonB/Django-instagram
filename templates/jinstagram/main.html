@@ -9,11 +9,24 @@
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
           rel="stylesheet">
+    <style>
+        .box {
+            width: 150px;
+            height: 150px;
+            border-radius: 70%;
+            overflow: hidden;
+        }
+
+        .profile {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        input:focus {outline:none; border:none}
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-light" style="position: fixed; width: 100%">
-
-
     <div class="container-fluid" style="justify-content: space-between; flex-wrap: nowrap; min-width: 1000px">
         <a class="navbar-brand" href="#"><img style="width: 100px"
                                               src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png"></a>
@@ -27,18 +40,57 @@
         </div>
     </div>
 </nav>
-<div style="display: flex;flex-direction: row; text-align: center; justify-content: center; padding-top: 60px">
-    <div style="width: 600px; height: 1000px; margin-right: 256px">
-        <div>
-            <div>사용자 정보</div>
-            <div>이미지</div>
-            <div>아이콘집합</div>
-            <div>댓글들</div>
-            <div>댓글입력창</div>
+<div style="display: flex;flex-direction: row; text-align: center; justify-content: center; padding-top: 61px; background-color: #FAFAFA">
+    <div style="width: 500px; min-width: 500px; height: 1000px; margin-right: 300px; padding-top:1px">
+        <div style="border: solid 1px gray; background-color: white">
+            <div style="display: flex; flex-direction: row; align-items: center; margin-left: 3px">
+                <div class="box" style="width: 80px; height: 80px">
+                    <img class="profile"
+                         src="http://file3.instiz.net/data/file3/2021/05/31/d/d/b/ddbc79bb11d67f68b0b269c2fefa4771.png">
+                </div>
+                <div>
+                    seungwonbang
+                </div>
+            </div>
+            <div>
+                <img style="width:100%;" src="https://cdn.jejusori.net/news/photo/201805/204575_237095_0813.jpg">
+            </div>
+            <div style="margin: 0 10px; display: flex; flex-direction: row; justify-content: space-between">
+                <div>
+                    <span class="material-icons-outlined">favorite_border</span>
+                    <span class="material-icons-outlined">mode_comment</span>
+                    <span class="material-icons-outlined">send</span>
+                </div>
+                <div>
+                    <span class="material-icons-outlined">bookmark_border</span>
+                </div>
+            </div>
+            <div style="margin: 0 10px; text-align: left; font-size:14px">춘식이 <b>외 19명</b>이 좋아합니다.</div>
+            <div style="margin: 0 10px; text-align: left; font-size:16px"><b>seungwonbang</b> 요즘에 해외여행을 못가니 제주도 많이 갑니다.
+            </div>
+            <div style="margin: 0 10px; text-align: left; font-size:14px"><b>sicacc</b> 나도 제주도 가고 싶다.</div>
+            <div style="margin: 0 10px; text-align: left; font-size:14px"><b>copdis</b> 외국인 많나요</div>
+            <div style="display: flex; flex-direction: row; align-items: center; border-top: solid 1px gray">
+                <input style="box-shadow: none; border:none; outline: none" type="text" class="form-control" placeholder="댓글 달기...">
+            </div>
         </div>
     </div>
     <div style="width: 400px; height: 1000px; background: orange; position: fixed; left: 62%">
-        오른쪽
+        <div>
+            내 프로필
+        </div>
+        <div>
+            회원님을 추천 모두 보기
+        </div>
+        <div>
+            류현진
+        </div>
+        <div>
+            빌게이츠
+        </div>
+        <div>
+            소개 도움말 홍보센터
+        </div>
     </div>
 </div>
 
