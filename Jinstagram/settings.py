@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 모델을 데이터베이스로 옮길 때 필요
+    'content',
+    'user',
+    'Jinstagram'
 ]
 
 MIDDLEWARE = [
