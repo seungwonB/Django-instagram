@@ -27,6 +27,14 @@
             outline: none;
             border: none
         }
+
+        .feed_box {
+            background-color: white;
+            width: 480px;
+            margin-bottom: 15px;
+            min-height: auto;
+            border: solid 1px gray;
+        }
     </style>
 </head>
 <body>
@@ -45,40 +53,47 @@
     </div>
 </nav>
 <div style="display: flex;flex-direction: row; text-align: center; justify-content: center; padding-top: 61px; background-color: #FAFAFA">
-    <div style="width: 500px; min-width: 500px; height: 1000px; margin-right: 300px; padding-top:1px">
-        <div style="border: solid 1px gray; background-color: white">
-            <div style="display: flex; flex-direction: row; align-items: center; margin-left: 3px">
-                <div class="box" style="width: 45px; height: 45px;">
-                    <img class="profile"
-                         src="https://dispatch.cdnser.be/wp-content/uploads/2018/03/2da3a9715f273c35f60a038061679457.png">
-                </div>
-                <div style="margin-left: 5px">
-                    dlwlrma
-                </div>
-            </div>
-            <div>
-                <img style="width:100%;" src="https://cdn.jejusori.net/news/photo/201805/204575_237095_0813.jpg">
-            </div>
-            <div style="margin: 0 10px; display: flex; flex-direction: row; justify-content: space-between">
-                <div>
-                    <span class="material-icons-outlined">favorite_border</span>
-                    <span class="material-icons-outlined">mode_comment</span>
-                    <span class="material-icons-outlined">send</span>
+    <div style="width: 500px; min-width: 500px; height: 1000px; margin-right: 300px; padding-top:1px;">
+        <!-- 피드박스 -->
+        {% for feed in feed_list %}
+            <div class="feed_box">
+                <div style="display: flex; flex-direction: row; align-items: center; margin-left: 3px">
+                    <div class="box" style="width: 45px; height: 45px;">
+                        <img class="profile"
+                             src="{{ feed.profile_image }}">
+                    </div>
+                    <div style="margin-left: 5px">
+                        {{ feed.user_id }}
+                    </div>
                 </div>
                 <div>
-                    <span class="material-icons-outlined">bookmark_border</span>
+                    <img style="width:100%;" src="{{ feed.image }}">
+                </div>
+                <div style="margin: 0 10px; display: flex; flex-direction: row; justify-content: space-between">
+                    <div>
+                        <span class="material-icons-outlined">favorite_border</span>
+                        <span class="material-icons-outlined">mode_comment</span>
+                        <span class="material-icons-outlined">send</span>
+                    </div>
+                    <div>
+                        <span class="material-icons-outlined">bookmark_border</span>
+                    </div>
+                </div>
+                <div style="margin: 0 10px; text-align: left; font-size:14px">춘식이 <b>외 {{ feed.like_count }}명</b>이
+                    좋아합니다.
+                </div>
+                <div style="margin: 0 10px; text-align: left; font-size:16px">
+                    <b>{{ feed.user_id }}</b> {{ feed.content }}
+                </div>
+                <div style="margin: 0 10px; text-align: left; font-size:14px"><b>sicacc</b> 나도 제주도 가고 싶다.</div>
+                <div style="margin: 0 10px; text-align: left; font-size:14px"><b>copdis</b> 외국인 많나요</div>
+                <div style="display: flex; flex-direction: row; align-items: center; border-top: solid 1px gray">
+                    <input style="box-shadow: none; border:none; outline: none" type="text" class="form-control"
+                           placeholder="댓글 달기...">
                 </div>
             </div>
-            <div style="margin: 0 10px; text-align: left; font-size:14px">춘식이 <b>외 19명</b>이 좋아합니다.</div>
-            <div style="margin: 0 10px; text-align: left; font-size:16px"><b>seungwonbang</b> 요즘에 해외여행을 못가니 제주도 많이 갑니다.
-            </div>
-            <div style="margin: 0 10px; text-align: left; font-size:14px"><b>sicacc</b> 나도 제주도 가고 싶다.</div>
-            <div style="margin: 0 10px; text-align: left; font-size:14px"><b>copdis</b> 외국인 많나요</div>
-            <div style="display: flex; flex-direction: row; align-items: center; border-top: solid 1px gray">
-                <input style="box-shadow: none; border:none; outline: none" type="text" class="form-control"
-                       placeholder="댓글 달기...">
-            </div>
-        </div>
+        {% endfor %}
+
     </div>
     <div style="width: 400px; height: 1000px; position: fixed; left: 62%">
         <div style="display: flex; flex-direction: row; align-items: center; margin-left: 3px">
