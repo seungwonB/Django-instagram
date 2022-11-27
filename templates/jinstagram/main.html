@@ -9,6 +9,9 @@
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
           rel="stylesheet">
+    <!-- jquery -->
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
     <style>
         .box {
             width: 150px;
@@ -35,6 +38,33 @@
             min-height: auto;
             border: solid 1px gray;
         }
+
+        .modal_overlay {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(1.5px);
+            -webkit-backdrop-filter: blur(1.5px);
+        }
+
+        .modal_window {
+            background: white;
+            backdrop-filter: blur(13.5px);
+            -webkit-backdrop-filter: blur(13.5px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            width: 800px;
+            height: 600px;
+            position: relative;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -46,7 +76,7 @@
         <div>
             <span class="material-icons">home</span>
             <span class="material-icons-outlined">send</span>
-            <span class="material-icons-outlined">add_box</span>
+            <span id="nav_bar_add_box" class="material-icons-outlined">add_box</span>
             <span class="material-icons-outlined">explore</span>
             <span class="material-icons-outlined">favorite_border</span>
         </div>
@@ -188,9 +218,123 @@
     </div>
 </div>
 
+<!-- 첫번째 모달-->
+<div id="first_modal" class="modal_overlay">
+    <div class="modal_window">
+        <div style="display: flex; flex-direction: row; justify-content: space-between">
+            <div style="width: 30px">
+            </div>
+            <div>
+                새 이미지 업로드
+            </div>
+            <div id="close_modal" style="width: 30px">
+                <span class="material-icons-outlined">close</span>
+            </div>
+        </div>
+        <div class="img_upload_space"
+             style="border-top: 1px gray solid; background: white; width: 778px; height: 540px; margin-top: 10px">
+
+        </div>
+    </div>
+</div>
+
+<!-- 두번째 모달-->
+<div id="second_modal" class="modal_overlay">
+    <div class="modal_window">
+        <div style="display: flex; flex-direction: row; justify-content: space-between">
+            <div style="width: 30px">
+            </div>
+            <div>
+                새 이미지 업로드
+            </div>
+            <div id="close_modal" style="width: 30px">
+                <span class="material-icons-outlined">close</span>
+            </div>
+        </div>
+        <div style="border-top: 1px gray solid; display: flex; flex-direction: row; margin-top: 10px">
+            <div class="img_upload_space" style="width: 500px; height: 540px;">
+
+            </div>
+            <div style="border-left: 1px solid gray">
+                <div>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" style="width: 276px; height: 400px"></textarea>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary" style="width: 100%">공유하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
+
+<!-- create 창 -->
+<script>
+    $('#nav_bar_add_box').click(function () {
+        $('#first_modal').css({
+            display: 'flex',
+        });
+        $(document.body).css({
+            overflow: 'hidden'
+        });
+    });
+
+    $('.img_upload_space')
+        .on("dragover", dragOver)
+        .on("dragleave", dragOver)
+        .on("drop", uploadFiles);
+
+    function dragOver(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        if (e.type == "dragover") {
+            $(e.target).css({
+                "background-color": "black",
+                "outline-offset": "-20px"
+            });
+        } else {
+            $(e.target).css({
+                "outline-offset": "-10px"
+            });
+        }
+    }
+
+    function uploadFiles(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        e.dataTransfer = e.originalEvent.dataTransfer;
+        var files = e.dataTransfer.files;
+
+        if (files.length > 1) {
+            alert('하나만 올려라.');
+            return;
+        }
+
+        if (files[0].type.match(/image.*/)) {
+            $('#first_modal').css({
+                display: 'none'
+            });
+            $('#second_modal').css({
+                display: 'flex'
+            });
+
+            $('.img_upload_space').css({
+                "background-image": "url(" + window.URL.createObjectURL(files[0]) + ")",
+                "outline": "none",
+                "background-size": "100%",
+                "background-repeat": "no-repeat",
+                "background-position": "center"
+            });
+        } else {
+            alert('이미지가 아닙니다.');
+            return;
+        }
+
+    }</script>
 </body>
 </html>
