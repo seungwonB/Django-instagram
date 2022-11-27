@@ -257,10 +257,10 @@
             </div>
             <div style="border-left: 1px solid gray">
                 <div>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" style="width: 276px; height: 400px"></textarea>
+                    <textarea id="input_feed_content" class="form-control" id="exampleFormControlTextarea1" rows="5" style="width: 276px; height: 400px"></textarea>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-primary" style="width: 100%">공유하기</button>
+                    <button id="feed-create-button" type="button" class="btn btn-primary" style="width: 100%">공유하기</button>
                 </div>
             </div>
         </div>
@@ -274,6 +274,9 @@
 
 <!-- create 창 -->
 <script>
+
+    let files;
+
     $('#nav_bar_add_box').click(function () {
         $('#first_modal').css({
             display: 'flex',
@@ -281,6 +284,38 @@
         $(document.body).css({
             overflow: 'hidden'
         });
+    });
+
+    $('#feed-create-button').click(function (){
+       alert('클릭' + $('#input_feed_content').val());
+
+       let file = files;
+       let image = files[0].name;
+       let content = $('#input_feed_content').val();
+       let user_id = 'dlwlrma';
+       let profile_image = 'https://dispatch.cdnser.be/wp-content/uploads/2018/03/2da3a9715f273c35f60a038061679457.png';
+
+       let fd = new FormData();
+       fd.append('file', file);
+       fd.append('image', image);
+       fd.append('content', content);
+       fd.append('user_id', user_id);
+       fd.append('profile_image', profile_image);
+
+       $.ajax({
+           url: "/content/upload",
+           data: fd,
+           method: "POST",
+           success: function(data){
+               console.log("성공");
+           },
+           error: function(request, status, error){
+               console.log("실패");
+           },
+           compile: function(){
+               console.log("완료");
+           }
+       })
     });
 
     $('.img_upload_space')
@@ -308,7 +343,7 @@
         e.preventDefault();
 
         e.dataTransfer = e.originalEvent.dataTransfer;
-        var files = e.dataTransfer.files;
+        files = e.dataTransfer.files;
 
         if (files.length > 1) {
             alert('하나만 올려라.');
