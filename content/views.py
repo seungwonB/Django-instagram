@@ -22,11 +22,13 @@ class Main(APIView):
                 user = User.objects.filter(email=reply.email).first()
                 reply_list.append(dict(reply_content=reply.reply_content,
                                        nickname=user.nickname))
+            # 좋아요
+            like_count = Like.objects.filter(feed_id=feed.id, is_like=True).count()
             # 피드
             feed_list.append(dict(id=feed.id,
                                   image=feed.image,
                                   content=feed.content,
-                                  like_count=feed.like_count,
+                                  like_count=like_count,
                                   profile_image=user.profile_image,
                                   nickname=user.nickname,
                                   reply_list=reply_list
