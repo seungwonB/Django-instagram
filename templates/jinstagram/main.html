@@ -134,11 +134,16 @@
                 </div>
                 {% for reply in feed.reply_list %}
                     <div style="margin: 0 10px; text-align: left; font-size:14px">
-                        <b>{{ reply.nickname }}</b> {{ reply.content }}</div>
+                        <b>{{ reply.nickname }}</b> {{ reply.reply_content }}</div>
                 {% endfor %}
                 <div style="display: flex; flex-direction: row; align-items: center; border-top: solid 1px gray">
-                    <input style="box-shadow: none; border:none; outline: none" type="text" class="form-control"
+                    <input id="reply_{{ feed.id }}" style="box-shadow: none; border:none; outline: none" type="text"
+                           class="form-control"
                            placeholder="댓글 달기...">
+                    <div feed_id="{{ feed.id }}" class="upload_reply"
+                         style="width: 50px; color: cornflowerblue; font-weight: bold">
+                        게시
+                    </div>
                 </div>
             </div>
         {% endfor %}
@@ -295,6 +300,38 @@
 
 <!-- create 창 -->
 <script>
+    $(".upload_reply").click(function (event) {
+        let feed_id = event.target.attributes.getNamedItem("feed_id").value;
+        let reply_id = 'reply_' + feed_id;
+        console.log(reply_id);
+        let reply_content = $('#' + reply_id).val();
+        console.log(reply_content);
+
+        if (reply_content.length <= 0) {
+            alert("댓글을 입력하세요.");
+            return 0;
+        }
+
+        $.ajax({
+            url: "/content/reply",
+            data: {
+                feed_id: feed_id,
+                reply_content: reply_content,
+            },
+            method: "POST",
+            success: function (data) {
+                alert("댓글 성공");
+                location.replace('/');
+            },
+            error: function (request, status, error) {
+                console.log("실패");
+            },
+            complete: function () {
+                console.log("완료");
+            }
+        })
+    });
+
     $('.modal_close').click(function () {
         $('#first_modal').css({
             display: 'none',
