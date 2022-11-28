@@ -118,9 +118,10 @@
                 </div>
                 <div style="margin: 0 10px; display: flex; flex-direction: row; justify-content: space-between">
                     <div>
-                        <span class="material-icons-outlined">favorite_border</span>
-{#                        <span class="material-icons-outlined">mode_comment</span>#}
-{#                        <span class="material-icons-outlined">send</span>#}
+                        <span id="favorite_{{ feed.id }}" style="cursor:pointer; color:red;" class="favorite material-icons-outlined">{% if feed.is_liked %}
+                            favorite{% else %}favorite_border{% endif %}</span>
+                        {#                        <span class="material-icons-outlined">mode_comment</span>#}
+                        {#                        <span class="material-icons-outlined">send</span>#}
                     </div>
                     <div>
                         <span class="material-icons-outlined">bookmark_border</span>
@@ -302,6 +303,17 @@
 
 <!-- create 창 -->
 <script>
+    $(".favorite").click(function (event){
+       let favorite_id = event.target.id;
+       let favorite_text = $.trim($("#"+favorite_id).html());
+       console.log(favorite_text);
+       if (favorite_text == 'favorite'){
+           $("#"+favorite_id).html('favorite_border');
+       } else{
+           $("#"+favorite_id).html('favorite');
+       }
+    });
+
     $(".upload_reply").click(function (event) {
         let feed_id = event.target.attributes.getNamedItem("feed_id").value;
         let reply_id = 'reply_' + feed_id;
