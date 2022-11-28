@@ -87,7 +87,7 @@ class UploadReply(APIView):
 
         return Response(status=200)
 
-class 쌯히디ㅑㅏㄷ(APIView):
+class ToggleLike(APIView):
     def post(self, request):
         feed_id = request.data.get('feed_id', None)
         is_like = request.data.get('is_like', True)
