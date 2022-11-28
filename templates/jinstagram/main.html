@@ -132,8 +132,10 @@
                 <div style="margin: 0 10px; text-align: left; font-size:16px">
                     <b>{{ feed.user_id }}</b> {{ feed.content }}
                 </div>
-                <div style="margin: 0 10px; text-align: left; font-size:14px"><b>sicacc</b> 나도 제주도 가고 싶다.</div>
-                <div style="margin: 0 10px; text-align: left; font-size:14px"><b>copdis</b> 외국인 많나요</div>
+                {% for reply in feed.reply_list %}
+                    <div style="margin: 0 10px; text-align: left; font-size:14px">
+                        <b>{{ reply.nickname }}</b> {{ reply.content }}</div>
+                {% endfor %}
                 <div style="display: flex; flex-direction: row; align-items: center; border-top: solid 1px gray">
                     <input style="box-shadow: none; border:none; outline: none" type="text" class="form-control"
                            placeholder="댓글 달기...">
@@ -319,15 +321,11 @@
         let file = files[0];
         let image = files[0].name;
         let content = $('#input_feed_content').val();
-        let user_id = "{{ user.nickname }}";
-        let profile_image = "{{ user.profile_image }}";
 
         let fd = new FormData();
         fd.append('file', file);
         fd.append('image', image);
         fd.append('content', content);
-        fd.append('user_id', user_id);
-        fd.append('profile_image', profile_image);
 
         $.ajax({
             url: "/content/upload",
