@@ -53,6 +53,7 @@
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(1.5px);
             -webkit-backdrop-filter: blur(1.5px);
+            z-index: 1001;
         }
 
         .modal_window {
@@ -69,13 +70,14 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-light" style="position: fixed; width: 100%">
+<nav class="navbar navbar-expand-lg bg-light" style="position: fixed; width: 100%; z-index:999;">
     <div class="container-fluid" style="justify-content: space-between; flex-wrap: nowrap; min-width: 1000px">
-        <a class="navbar-brand" href="#"><img style="width: 100px"
-                                              src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png"></a>
+        <a class="navbar-brand" href="/">
+            <img style="width: 100px"
+                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png"></a>
         <input class="form-control me-2" style="width: 400px" type="search" placeholder="Search" aria-label="Search">
         <div style="display: flex">
-            <span class="material-icons" style="padding-right: 5px">home</span>
+            <a style="color:black" href="/"><span class="material-icons" style="padding-right: 5px">home</span></a>
             <span id="nav_bar_add_box" class="material-icons-outlined" style="padding-right: 5px">add_box</span>
             <div class="dropdown">
                 <a href="#" role="button" data-bs-toggle="dropdown"
@@ -88,7 +90,9 @@
 
                 <ul class="dropdown-menu" style="left: -157px;">
                     <li><a class="dropdown-item" href="/content/profile">프로필</a></li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                     <li><a class="dropdown-item" href="/user/logout">로그아웃</a></li>
                 </ul>
             </div>
