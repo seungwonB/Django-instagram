@@ -10,8 +10,17 @@ from user.models import User
 
 class Main(APIView):
     def get(self, request):
-        feed_list = Feed.objects.all().order_by(
-            '-id')  # 피드에 있는 모든 데이터를 가져옴(쿼리셋) = select * from content_feed, 최신 글을 위한 역순 출력
+        feed_object_list = Feed.objects.all().order_by('-id')  # 피드에 있는 모든 데이터를 가져옴(쿼리셋) = select * from content_feed, 최신 글을 위한 역순 출력
+        feed_list = []
+
+        for feed in feed_object_list:
+            user = User.objects.filter(email=feed.email).first()
+            feed_list.append(dict(image=feed.image,
+                                  content=feed.content,
+                                  like_count=feed.like_count,
+                                  profile_image=user.profile_image,
+                                  nickname=user.nickname
+                                  ))
 
         email = request.session.get('email', None)
         if email is None:
@@ -36,13 +45,12 @@ class UploadFeed(APIView):
             for chunk in file.chunks():
                 destination.write(chunk)
 
-        content = request.data.get('content')
         image = uuid_name
-        profile_image = request.data.get('profile_image')
-        user_id = request.data.get('user_id')
+        content = request.data.get('content')
+        email = request.session.get('email', None)
 
         # 피드에 나타내기
-        Feed.objects.create(content=content, image=image, profile_image=profile_image, user_id=user_id, like_count=0)
+        Feed.objects.create(content=content, image=image, email=email, like_count=0)
 
         return Response(status=200)
 
