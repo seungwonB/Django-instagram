@@ -245,7 +245,7 @@
                 새 이미지 업로드
             </div>
             <div id="close_modal" style="width: 30px">
-                <span class="material-icons-outlined">close</span>
+                <span class="modal_close material-icons-outlined">close</span>
             </div>
         </div>
         <div class="img_upload_space"
@@ -265,7 +265,7 @@
                 새 이미지 업로드
             </div>
             <div id="close_modal" style="width: 30px">
-                <span class="material-icons-outlined">close</span>
+                <span class="modal_close material-icons-outlined">close</span>
             </div>
         </div>
         <div style="border-top: 1px gray solid; display: flex; flex-direction: row; margin-top: 10px">
@@ -293,6 +293,14 @@
 
 <!-- create 창 -->
 <script>
+    $('.modal_close').click(function () {
+        $('#first_modal').css({
+            display: 'none',
+        });
+        $('#second_modal').css({
+            display: 'none'
+        });
+    });
 
     let files;
 
