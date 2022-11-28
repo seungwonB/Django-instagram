@@ -11,21 +11,24 @@ from user.models import User
 class Main(APIView):
     def get(self, request):
         email = request.session.get('email', None)
+
         if email is None:
-            return render(request, 'user/login.html')
+            return render(request, "user/login.html")
 
         user = User.objects.filter(email=email).first()
-        if email is None:
-            return render(request, 'user/login.html')
+
+        if user is None:
+            return render(request, "user/login.html")
 
         feed_object_list = Feed.objects.all().order_by('-id')  # 피드에 있는 모든 데이터를 가져옴(쿼리셋) = select * from content_feed, 최신 글을 위한 역순 출력
         feed_list = []
 
+        # 피드
         for feed in feed_object_list:
             user = User.objects.filter(email=feed.email).first()
+            # 댓글
             reply_object_list = Reply.objects.filter(feed_id=feed.id)
             reply_list = []
-            # 댓글들
             for reply in reply_object_list:
                 user = User.objects.filter(email=reply.email).first()
                 reply_list.append(dict(reply_content=reply.reply_content,
@@ -33,7 +36,7 @@ class Main(APIView):
             # 좋아요
             like_count = Like.objects.filter(feed_id=feed.id, is_like=True).count()
             is_liked = Like.objects.filter(feed_id=feed.id, email=email, is_like=True).exists()
-            # 피드
+
             feed_list.append(dict(id=feed.id,
                                   image=feed.image,
                                   content=feed.content,
@@ -41,7 +44,7 @@ class Main(APIView):
                                   profile_image=user.profile_image,
                                   nickname=user.nickname,
                                   reply_list=reply_list,
-                                  is_liked=is_liked
+                                  is_liked=is_liked,
                                   ))
 
         return render(request, 'jinstagram/main.html', context=dict(feed_list=feed_list, user=user))
@@ -94,15 +97,20 @@ class UploadReply(APIView):
 class ToggleLike(APIView):
     def post(self, request):
         feed_id = request.data.get('feed_id', None)
-        is_like = request.data.get('is_like', True)
+        favorite_text = request.data.get('favorite_text', True)
 
-        if is_like == "true" or is_like == 'True':
+        if favorite_text == 'favorite_border':
             is_like = True
         else:
             is_like = False
-
         email = request.session.get('email', None)
 
-        Like.objects.create(feed_id=feed_id, is_like=is_like, email=email)
+        like = Like.objects.filter(feed_id=feed_id, email=email).first()
+
+        if like:
+            like.is_like = is_like
+            like.save()
+        else:
+            Like.objects.create(feed_id=feed_id, is_like=is_like, email=email)
 
         return Response(status=200)
