@@ -34,7 +34,7 @@ class Main(APIView):
                 reply_list.append(dict(reply_content=reply.reply_content,
                                        nickname=user.nickname))
             # 좋아요
-            like_count = Like.objects.filter(feed_id=feed.id, is_like=True).count()
+            like_count=Like.objects.filter(feed_id=feed.id, is_like=True).count()
             is_liked = Like.objects.filter(feed_id=feed.id, email=email, is_like=True).exists()
             # 북마크
             is_marked=Bookmark.objects.filter(feed_id=feed.id, email=email, is_marked=True).exists()
@@ -70,7 +70,7 @@ class UploadFeed(APIView):
         email = request.session.get('email', None)
 
         # 피드에 나타내기
-        Feed.objects.create(content=content, image=image, email=email, like_count=0)
+        Feed.objects.create(content=content, image=image, email=email)
 
         return Response(status=200)
 
@@ -85,7 +85,18 @@ class Profile(APIView):
         if email is None:
             return render(request, 'user/login.html')
 
-        return render(request, 'content/profile.html', context=dict(user=user))
+        feed_list = Feed.objects.filter(email=email)
+        # 내가 좋아요 한 것들만 flat은 리스트로 받는다는 뜻
+        like_list = list(Like.objects.filter(email=email, is_like=True).values_list('feed_id', flat=True))
+        like_feed_list = Feed.objects.filter(id__in=like_list)
+
+        bookmark_list = list(Bookmark.objects.filter(email=email, is_marked=True).values_list('feed_id', flat=True))
+        bookmark_feed_list = Feed.objects.filter(id__in=bookmark_list)
+
+        return render(request, 'content/profile.html', context=dict(feed_list=feed_list,
+                                                                    like_feed_list=like_feed_list,
+                                                                    bookmark_feed_list=bookmark_feed_list,
+                                                                    user=user))
 
 class UploadReply(APIView):
     def post(self, request):
