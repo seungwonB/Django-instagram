@@ -82,152 +82,40 @@
                    aria-expanded="false">
                     <div class="box" style="width: 25px; height: 25px;">
                         <img class="profile"
-                             src="https://dispatch.cdnser.be/wp-content/uploads/2018/03/2da3a9715f273c35f60a038061679457.png">
+                             src="{% get_media_prefix %}{{ user.profile_image }}">
                     </div>
                 </a>
 
                 <ul class="dropdown-menu" style="left: -157px;">
-                    <li><a class="dropdown-item" href="/content/profile">프로필</a></li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">프로필</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                     <li><a class="dropdown-item" href="/user/logout">로그아웃</a></li>
                 </ul>
             </div>
         </div>
     </div>
 </nav>
+
 <div style="display: flex;flex-direction: row; text-align: center; justify-content: center; padding-top: 61px; background-color: #FAFAFA">
-    <div style="width: 500px; min-width: 500px; height: 1000px; margin-right: 300px; padding-top:1px;">
-        <!-- 피드박스 -->
-        {% for feed in feed_list %}
-            <div class="feed_box">
-                <div style="display: flex; flex-direction: row; align-items: center; margin-left: 3px">
-                    <div class="box" style="width: 45px; height: 45px;">
-                        <img class="profile"
-                             src="{{ feed.profile_image }}">
-                    </div>
-                    <div style="margin-left: 5px">
-                        {{ feed.user_id }}
-                    </div>
-                </div>
-                <div>
-                    <img style="width:100%;" src="{% get_media_prefix %}{{ feed.image }}">
-                </div>
-                <div style="margin: 0 10px; display: flex; flex-direction: row; justify-content: space-between">
-                    <div>
-                        <span class="material-icons-outlined">favorite_border</span>
-                        <span class="material-icons-outlined">mode_comment</span>
-                        <span class="material-icons-outlined">send</span>
-                    </div>
-                    <div>
-                        <span class="material-icons-outlined">bookmark_border</span>
-                    </div>
-                </div>
-                <div style="margin: 0 10px; text-align: left; font-size:14px">춘식이 <b>외 {{ feed.like_count }}명</b>이
-                    좋아합니다.
-                </div>
-                <div style="margin: 0 10px; text-align: left; font-size:16px">
-                    <b>{{ feed.user_id }}</b> {{ feed.content }}
-                </div>
-                <div style="margin: 0 10px; text-align: left; font-size:14px"><b>sicacc</b> 나도 제주도 가고 싶다.</div>
-                <div style="margin: 0 10px; text-align: left; font-size:14px"><b>copdis</b> 외국인 많나요</div>
-                <div style="display: flex; flex-direction: row; align-items: center; border-top: solid 1px gray">
-                    <input style="box-shadow: none; border:none; outline: none" type="text" class="form-control"
-                           placeholder="댓글 달기...">
-                </div>
-            </div>
-        {% endfor %}
-
+    <div style="padding: 20px 60px;">
+        <div class="box" style="width: 150px; height: 150px;">
+            <img class="profile"
+                 src="{% get_media_prefix %}{{ user.profile_image }}">
+        </div>
     </div>
-    <div style="width: 400px; height: 1000px; position: fixed; left: 62%">
-        <div style="display: flex; flex-direction: row; align-items: center; margin-left: 3px">
-            <div class="box" style="width: 65px; height: 65px">
-                <img class="profile"
-                     src="https://dispatch.cdnser.be/wp-content/uploads/2018/03/2da3a9715f273c35f60a038061679457.png">
-            </div>
-            <div style="margin-left: 10px; text-align: left">
-                <div style="font-weight: bold">
-                    {{ user.nickname }}
-                </div>
-                <div style="color: gray">
-                    {{ user.name }}
-                </div>
-            </div>
+    <div style="text-align: left">
+        <div style="display: flex; flex-direction: row; margin: 20px 0px">
+            <div style="font-size: 25px; margin-right: 30px;">{{ user.nickname }}</div>
+            <button id="button_profile_upload" style="margin-right: 30px;">프로필 사진 편집</button>
+            <input type="file" id="input_fileupload" onchange="profile_upload();" style="display: none"/>
+            <span style="margin-right:30px" class="material-icons-outlined">settings</span>
         </div>
-        <div style="display: flex; flex-direction: row; justify-content: space-between">
-            <div style="font-weight: bold; color: gray">
-                회원님을 추천
-            </div>
-            <div>
-                <a href="#" style="text-decoration: none; color: black; font-weight: bold">모두 보기</a>
-            </div>
+        <div style="margin-bottom: 20px;">
+            게시물 14 팔로워 111 팔로잉 111
         </div>
-        <div style="display: flex; flex-direction: row; justify-content: space-between;align-items: center;">
-            <div style="display: flex; flex-direction: row;">
-                <div class="box" style="width: 35px; height: 35px">
-                    <img class="profile"
-                         src="https://blog.kakaocdn.net/dn/bw0VWM/btqNfsiSHi3/1sBuK2BqjLQZC6yCcbkEo0/img.png">
-                </div>
-                <div style="margin-left: 10px; text-align: left">
-                    <div style="font-weight: bold">
-                        findintete
-                    </div>
-                    <div style="color: gray">
-                        seungwonbang님 외 5명이 팔로우합니다.
-                    </div>
-
-                </div>
-                <div style="">
-                    <a href="#" style="font-size: 14px; color: blue; text-decoration: none; font-weight: bold">팔로우</a>
-                </div>
-            </div>
-        </div>
-        <div style="display: flex; flex-direction: row; justify-content: space-between;align-items: center;">
-            <div style="display: flex; flex-direction: row;">
-                <div class="box" style="width: 35px; height: 35px">
-                    <img class="profile"
-                         src="https://blog.kakaocdn.net/dn/bw0VWM/btqNfsiSHi3/1sBuK2BqjLQZC6yCcbkEo0/img.png">
-                </div>
-                <div style="margin-left: 10px; text-align: left">
-                    <div style="font-weight: bold">
-                        findintete
-                    </div>
-                    <div style="color: gray">
-                        seungwonbang님 외 5명이 팔로우합니다.
-                    </div>
-
-                </div>
-                <div style="">
-                    <a href="#" style="font-size: 14px; color: blue; text-decoration: none; font-weight: bold">팔로우</a>
-                </div>
-            </div>
-        </div>
-        <div style="display: flex; flex-direction: row; justify-content: space-between;align-items: center;">
-            <div style="display: flex; flex-direction: row;">
-                <div class="box" style="width: 35px; height: 35px">
-                    <img class="profile"
-                         src="https://blog.kakaocdn.net/dn/bw0VWM/btqNfsiSHi3/1sBuK2BqjLQZC6yCcbkEo0/img.png">
-                </div>
-                <div style="margin-left: 10px; text-align: left">
-                    <div style="font-weight: bold">
-                        findintete
-                    </div>
-                    <div style="color: gray">
-                        seungwonbang님 외 5명이 팔로우합니다.
-                    </div>
-
-                </div>
-                <div style="">
-                    <a href="#" style="font-size: 14px; color: blue; text-decoration: none; font-weight: bold">팔로우</a>
-                </div>
-            </div>
-        </div>
-        <div style="margin-top: 50px; font-size: 12px; color: gray; text-align: left">
-            소개 도움말 홍보센터 API 채용정보<br>
-            개인정보처리방침 약관 위치 언어<br>
-        </div>
-        <div style="margin-top: 20px; font-size: 12px; color: gray; text-align: left">
-            ©2022 INSTAGRAM FROM META
-        </div>
+        <div><b>{{ user.name }}</b></div>
     </div>
 </div>
 
@@ -388,6 +276,40 @@
             return;
         }
 
-    }</script>
+    }
+
+    $('#button_profile_upload').click(function () {
+        $('#input_fileupload').click();
+    });
+
+
+    function profile_upload() {
+        let file = $('#input_fileupload')[0].files[0];
+        console.log(file);
+        let email = "{{ user.email }}";
+
+        let fd = new FormData();
+        fd.append('file', file);
+        fd.append('email', email);
+
+        $.ajax({
+            url: "/user/profile/upload",
+            data: fd,
+            method: "POST",
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log("성공");
+            },
+            error: function (request, status, error) {
+                console.log("실패");
+            },
+            complete: function () {
+                console.log("완료");
+                location.replace("/content/profile");
+            }
+        })
+    }
+</script>
 </body>
 </html>
