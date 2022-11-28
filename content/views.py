@@ -17,12 +17,12 @@ class Main(APIView):
             user = User.objects.filter(email=feed.email).first()
             reply_object_list = Reply.objects.filter(feed_id=feed.id)
             reply_list = []
-
+            # 댓글들
             for reply in reply_object_list:
                 user = User.objects.filter(email=reply.email).first()
                 reply_list.append(dict(reply_content=reply.reply_content,
                                        nickname=user.nickname))
-
+            # 피드
             feed_list.append(dict(id=feed.id,
                                   image=feed.image,
                                   content=feed.content,
@@ -84,5 +84,21 @@ class UploadReply(APIView):
         email = request.session.get('email', None)
 
         Reply.objects.create(feed_id=feed_id, reply_content=reply_content, email=email)
+
+        return Response(status=200)
+
+class 쌯히디ㅑㅏㄷ(APIView):
+    def post(self, request):
+        feed_id = request.data.get('feed_id', None)
+        is_like = request.data.get('is_like', True)
+
+        if is_like == "true" or is_like == 'True':
+            is_like = True
+        else:
+            is_like = False
+
+        email = request.session.get('email', None)
+
+        Like.objects.create(feed_id=feed_id, is_like=is_like, email=email)
 
         return Response(status=200)
