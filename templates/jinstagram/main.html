@@ -74,12 +74,24 @@
         <a class="navbar-brand" href="#"><img style="width: 100px"
                                               src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png"></a>
         <input class="form-control me-2" style="width: 400px" type="search" placeholder="Search" aria-label="Search">
-        <div>
-            <span class="material-icons">home</span>
-            <span class="material-icons-outlined">send</span>
-            <span id="nav_bar_add_box" class="material-icons-outlined">add_box</span>
-            <span class="material-icons-outlined">explore</span>
-            <span class="material-icons-outlined">favorite_border</span>
+        <div style="display: flex">
+            <span class="material-icons" style="padding-right: 5px">home</span>
+            <span id="nav_bar_add_box" class="material-icons-outlined" style="padding-right: 5px">add_box</span>
+            <div class="dropdown">
+                <a href="#" role="button" data-bs-toggle="dropdown"
+                   aria-expanded="false">
+                    <div class="box" style="width: 25px; height: 25px;">
+                        <img class="profile"
+                             src="https://dispatch.cdnser.be/wp-content/uploads/2018/03/2da3a9715f273c35f60a038061679457.png">
+                    </div>
+                </a>
+
+                <ul class="dropdown-menu" style="left: -157px;">
+                    <li><a class="dropdown-item" href="#">프로필</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">로그아웃</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>
@@ -258,10 +270,12 @@
             </div>
             <div style="border-left: 1px solid gray">
                 <div>
-                    <textarea id="input_feed_content" class="form-control" id="exampleFormControlTextarea1" rows="5" style="width: 276px; height: 400px"></textarea>
+                    <textarea id="input_feed_content" class="form-control" id="exampleFormControlTextarea1" rows="5"
+                              style="width: 276px; height: 400px"></textarea>
                 </div>
                 <div>
-                    <button id="feed-create-button" type="button" class="btn btn-primary" style="width: 100%">공유하기</button>
+                    <button id="feed-create-button" type="button" class="btn btn-primary" style="width: 100%">공유하기
+                    </button>
                 </div>
             </div>
         </div>
@@ -287,39 +301,39 @@
         });
     });
 
-    $('#feed-create-button').click(function (){
-       alert('클릭' + $('#input_feed_content').val());
+    $('#feed-create-button').click(function () {
+        alert('클릭' + $('#input_feed_content').val());
 
-       let file = files[0];
-       let image = files[0].name;
-       let content = $('#input_feed_content').val();
-       let user_id = 'dlwlrma';
-       let profile_image = 'https://dispatch.cdnser.be/wp-content/uploads/2018/03/2da3a9715f273c35f60a038061679457.png';
+        let file = files[0];
+        let image = files[0].name;
+        let content = $('#input_feed_content').val();
+        let user_id = 'dlwlrma';
+        let profile_image = 'https://dispatch.cdnser.be/wp-content/uploads/2018/03/2da3a9715f273c35f60a038061679457.png';
 
-       let fd = new FormData();
-       fd.append('file', file);
-       fd.append('image', image);
-       fd.append('content', content);
-       fd.append('user_id', user_id);
-       fd.append('profile_image', profile_image);
+        let fd = new FormData();
+        fd.append('file', file);
+        fd.append('image', image);
+        fd.append('content', content);
+        fd.append('user_id', user_id);
+        fd.append('profile_image', profile_image);
 
-       $.ajax({
-           url: "/content/upload",
-           data: fd,
-           method: "POST",
-           processData: false,
-           contentType: false,
-           success: function(data){
-               console.log("성공");
-           },
-           error: function(request, status, error){
-               console.log("실패");
-           },
-           complete: function(){
-               console.log("완료");
-               location.replace("/");
-           }
-       })
+        $.ajax({
+            url: "/content/upload",
+            data: fd,
+            method: "POST",
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log("성공");
+            },
+            error: function (request, status, error) {
+                console.log("실패");
+            },
+            complete: function () {
+                console.log("완료");
+                location.replace("/");
+            }
+        })
     });
 
     $('.img_upload_space')
