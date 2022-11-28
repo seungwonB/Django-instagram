@@ -36,6 +36,8 @@ class Main(APIView):
             # 좋아요
             like_count = Like.objects.filter(feed_id=feed.id, is_like=True).count()
             is_liked = Like.objects.filter(feed_id=feed.id, email=email, is_like=True).exists()
+            # 북마크
+            is_marked=Bookmark.objects.filter(feed_id=feed.id, email=email, is_marked=True).exists()
 
             feed_list.append(dict(id=feed.id,
                                   image=feed.image,
@@ -45,6 +47,7 @@ class Main(APIView):
                                   nickname=user.nickname,
                                   reply_list=reply_list,
                                   is_liked=is_liked,
+                                  is_marked=is_marked
                                   ))
 
         return render(request, 'jinstagram/main.html', context=dict(feed_list=feed_list, user=user))
@@ -112,5 +115,27 @@ class ToggleLike(APIView):
             like.save()
         else:
             Like.objects.create(feed_id=feed_id, is_like=is_like, email=email)
+
+        return Response(status=200)
+
+
+class ToggleBookmark(APIView):
+    def post(self, request):
+        feed_id = request.data.get('feed_id', None)
+        bookmark_text = request.data.get('bookmark_text', True)
+        print(bookmark_text)
+        if bookmark_text == 'bookmark_border':
+            is_marked = True
+        else:
+            is_marked = False
+        email = request.session.get('email', None)
+
+        bookmark = Bookmark.objects.filter(feed_id=feed_id, email=email).first()
+
+        if bookmark:
+            bookmark.is_marked = is_marked
+            bookmark.save()
+        else:
+            Bookmark.objects.create(feed_id=feed_id, is_marked=is_marked, email=email)
 
         return Response(status=200)
