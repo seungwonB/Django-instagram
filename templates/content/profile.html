@@ -203,8 +203,8 @@
         let file = files[0];
         let image = files[0].name;
         let content = $('#input_feed_content').val();
-        let user_id = 'dlwlrma';
-        let profile_image = 'https://dispatch.cdnser.be/wp-content/uploads/2018/03/2da3a9715f273c35f60a038061679457.png';
+        let user_id = "{{ user.nickname }}";
+        let profile_image = "{{ user.profile_image }}";
 
         let fd = new FormData();
         fd.append('file', file);

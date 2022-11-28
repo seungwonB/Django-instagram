@@ -84,7 +84,7 @@
                    aria-expanded="false">
                     <div class="box" style="width: 25px; height: 25px;">
                         <img class="profile"
-                             src="https://dispatch.cdnser.be/wp-content/uploads/2018/03/2da3a9715f273c35f60a038061679457.png">
+                             src="{% get_media_prefix %}{{ user.profile_image }}">
                     </div>
                 </a>
 
@@ -107,7 +107,7 @@
                 <div style="display: flex; flex-direction: row; align-items: center; margin-left: 3px">
                     <div class="box" style="width: 45px; height: 45px;">
                         <img class="profile"
-                             src="{{ feed.profile_image }}">
+                             src="{% get_media_prefix %}{{ feed.profile_image }}">
                     </div>
                     <div style="margin-left: 5px">
                         {{ feed.user_id }}
@@ -146,7 +146,7 @@
         <div style="display: flex; flex-direction: row; align-items: center; margin-left: 3px">
             <div class="box" style="width: 65px; height: 65px">
                 <img class="profile"
-                     src="https://dispatch.cdnser.be/wp-content/uploads/2018/03/2da3a9715f273c35f60a038061679457.png">
+                     src="{% get_media_prefix %}{{ user.profile_image }}">
             </div>
             <div style="margin-left: 10px; text-align: left">
                 <div style="font-weight: bold">
@@ -319,8 +319,8 @@
         let file = files[0];
         let image = files[0].name;
         let content = $('#input_feed_content').val();
-        let user_id = 'dlwlrma';
-        let profile_image = 'https://dispatch.cdnser.be/wp-content/uploads/2018/03/2da3a9715f273c35f60a038061679457.png';
+        let user_id = "{{ user.nickname }}";
+        let profile_image = "{{ user.profile_image }}";
 
         let fd = new FormData();
         fd.append('file', file);
