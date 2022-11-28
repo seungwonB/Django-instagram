@@ -66,3 +66,4 @@ class Profile(APIView):
             return render(request, 'user/login.html')
 
         return render(request, 'content/profile.html', context=dict(user=user))
+
