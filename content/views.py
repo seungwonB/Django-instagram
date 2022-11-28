@@ -10,7 +10,7 @@ class Main(APIView):
     def get(self, request):
         feed_list = Feed.objects.all().order_by('-id') # 피드에 있는 모든 데이터를 가져옴(쿼리셋) = select * from content_feed, 최신 글을 위한 역순 출력
 
-        email = request.session['email']
+        email = request.session.get('email', None)
         if email is None:
             return render(request, 'user/login.html')
 

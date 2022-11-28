@@ -42,3 +42,9 @@ class Login(APIView):
             return Response(status=200)
         else:
             return Response(status=400, data=dict(message="회원정보가 잘못되었습니다.")) # 해킹 방지
+
+
+class Logout(APIView):
+    def get(self, request):
+        request.session.flush()
+        return render(request, "user/login.html")
