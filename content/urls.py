@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import UploadFeed, Profile, UploadReply, ToggleLike, ToggleBookmark
+from .views import UploadFeed, Profile, UploadReply, ToggleLike, ToggleBookmark, DeleteFeed
 
 urlpatterns = [
     path('upload', UploadFeed.as_view()),
@@ -7,5 +7,7 @@ urlpatterns = [
     path('profile', Profile.as_view()),
     path('like', ToggleLike.as_view()),
     path('bookmark', ToggleBookmark.as_view()),
+    path('delete', DeleteFeed.as_view()),
+
 ]
 

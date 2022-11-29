@@ -74,6 +74,18 @@ class UploadFeed(APIView):
 
         return Response(status=200)
 
+class DeleteFeed(APIView):
+    def delete(self, request):
+        content = request.data.get('content')
+        uuid_name = uuid4().hex
+
+        image = uuid_name
+        email = request.session.get('email', None)
+
+        feed = Feed.objects.filter(email=email)
+        feed.delete()
+        return Response(status=200)
+
 
 class Profile(APIView):
     def get(self, request):
@@ -92,10 +104,11 @@ class Profile(APIView):
 
         bookmark_list = list(Bookmark.objects.filter(email=email, is_marked=True).values_list('feed_id', flat=True))
         bookmark_feed_list = Feed.objects.filter(id__in=bookmark_list)
-
+        len_feed = len(feed_list)
         return render(request, 'content/profile.html', context=dict(feed_list=feed_list,
                                                                     like_feed_list=like_feed_list,
                                                                     bookmark_feed_list=bookmark_feed_list,
+                                                                    len_feed=len_feed,
                                                                     user=user))
 
 class UploadReply(APIView):
@@ -150,3 +163,5 @@ class ToggleBookmark(APIView):
             Bookmark.objects.create(feed_id=feed_id, is_marked=is_marked, email=email)
 
         return Response(status=200)
+
+

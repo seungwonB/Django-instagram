@@ -80,9 +80,9 @@
             <a style="color:black" href="/"><span class="material-icons" style="padding-right: 5px">home</span></a>
             <span id="nav_bar_add_box" class="material-icons-outlined" style="padding-right: 5px">add_box</span>
             <div class="dropdown">
-                <a href="#" role="button" data-bs-toggle="dropdown"
-                   aria-expanded="false">
-                    <div class="box" style="width: 25px; height: 25px;">
+                <a href="#" role="button" id="dropdownMenuLink"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="box" style="width: 25px; height: 25px">
                         <img class="profile"
                              src="{% get_media_prefix %}{{ user.profile_image }}">
                     </div>
@@ -112,6 +112,12 @@
                     <div style="margin-left: 5px">
                         {{ feed.nickname }}
                     </div>
+                    <div style="margin-left: 320px">
+                        {% if user.nickname == feed.nickname %}
+                            <span id="delete_feed" class="delete_feed material-icons-outlined">delete</span>
+                        {% endif %}
+                    </div>
+
                 </div>
                 <div>
                     <img style="width:100%;" src="{% get_media_prefix %}{{ feed.image }}">
@@ -127,11 +133,12 @@
                         {#                        <span class="material-icons-outlined">send</span>#}
                     </div>
                     <div>
-                        <span id="bookmark_{{ feed.id }}" feed_id="{{ feed.id }}" class="bookmark material-icons-outlined" style="cursor: pointer">
+                        <span id="bookmark_{{ feed.id }}" feed_id="{{ feed.id }}"
+                              class="bookmark material-icons-outlined" style="cursor: pointer">
                             {% if feed.is_marked %}
-                            bookmark
+                                bookmark
                             {% else %}
-                            bookmark_border
+                                bookmark_border
                             {% endif %}
                         </span>
                     </div>
@@ -140,7 +147,7 @@
                     좋아합니다.
                 </div>
                 <div style="margin: 0 10px; text-align: left; font-size:16px">
-                    <b>{{ feed.user_id }}</b> {{ feed.content }}
+                    <b>{{ feed.nickname }}</b> {{ feed.content }}
                 </div>
                 <div id="reply_list_{{ feed.id }}">
                     {% for reply in feed.reply_list %}
@@ -162,8 +169,8 @@
 
     </div>
     <div style="width: 400px; height: 1000px; position: fixed; left: 62%">
-        <div style="display: flex; flex-direction: row; align-items: center; margin-left: 3px">
-            <div class="box" style="width: 65px; height: 65px">
+        <div style="display: flex;flex-direction: row; align-items: center; margin: 20px">
+            <div class="box" style="width: 70px; height: 70px">
                 <img class="profile"
                      src="{% get_media_prefix %}{{ user.profile_image }}">
             </div>
@@ -388,7 +395,7 @@
             method: "POST",
             success: function (data) {
                 alert("댓글 성공");
-                $("#reply_list_" + feed_id).append("<div style='margin: 0 20px;text-align: left;font-size: 14px'><b>{{ user.nickname }}</b> " + reply_content + "</div>")
+                $("#reply_list_" + feed_id).append("<div style='margin: 0 10px;text-align: left;font-size: 14px'><b>{{ user.nickname }}</b> " + reply_content + "</div>")
             },
             error: function (request, status, error) {
                 console.log("실패");
@@ -502,7 +509,32 @@
             alert('이미지가 아닙니다.');
             return;
         }
+    }
 
-    }</script>
+    $("#delete_feed").click(function () {
+        let res = confirm("삭제 하시겠습니까?");
+        if (res) {
+            $.ajax({
+                url: "/content/delete",
+                method: "DELETE",
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log("성공");
+                },
+                error: function (request, status, error) {
+                    console.log("실패");
+                },
+                complete: function () {
+                    console.log("완료");
+                    location.replace("/");
+
+                }
+            })
+        }
+
+    });
+
+</script>
 </body>
 </html>

@@ -7,4 +7,3 @@ urlpatterns = [
     path('logout', Logout.as_view()),
     path('profile/upload', UploadProfile.as_view())
 ]
-
